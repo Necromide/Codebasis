@@ -1,66 +1,83 @@
 <?php
-include "config.php";  // Initialisiert die Session und lädt allgemeine Einstellungen
+include 'config.php';
+include "header.php";
 
-// Artikel zum Warenkorb hinzufügen
-if (isset($_GET['artikel']) && isset($_GET['action']) && $_GET['action'] == 'add') {
-    $artikelName = $_GET['artikel'];
-    $preis = floatval($_GET['preis']);
-
-    $artikel = array('name' => $artikelName, 'preis' => $preis);
-    $_SESSION['warenkorb'][] = $artikel;  // Artikel wird zum Warenkorb-Array hinzugefügt
-}
-
-// Artikel aus dem Warenkorb entfernen
-if (isset($_GET['artikelIndex']) && isset($_GET['action']) && $_GET['action'] == 'remove') {
-    $index = $_GET['artikelIndex'];
-    if (isset($_SESSION['warenkorb'][$index])) {
-        unset($_SESSION['warenkorb'][$index]);
-        $_SESSION['warenkorb'] = array_values($_SESSION['warenkorb']); // Re-index the array after unsetting
+// Produkt zum Warenkorb hinzufügen
+if (isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
+    if (isset($_SESSION['warenkorb'][$product_id])) {
+        $_SESSION['warenkorb'][$product_id]++;
+    } else {
+        $_SESSION['warenkorb'][$product_id] = 1;
     }
 }
 
-// Gesamtpreis berechnen
-$gesamtpreis = 0;
-foreach ($_SESSION['warenkorb'] as $artikel) {
-    $gesamtpreis += $artikel['preis'];
+// Produkt aus dem Warenkorb entfernen
+if (isset($_POST['remove_from_cart'])) {
+    $product_id = $_POST['product_id'];
+    unset($_SESSION['warenkorb'][$product_id]);
 }
-
-include "header.php";  // Lädt den Header
 ?>
 
 <main>
-    <h2>Speisekarte</h2>
+    <h2>Unsere Speisekarte</h2>
+    <div class="speisekarte">
 
-    <h3>Pizzen:</h3>
-    <ul>
-        <li><a href="speisekarte.php?artikel=Margherita&preis=7.00&action=add">Margherita - 7,00 €</a></li>
-        <li><a href="speisekarte.php?artikel=Salami&preis=8.50&action=add">Salami - 8,50 €</a></li>
-        <li><a href="speisekarte.php?artikel=Funghi&preis=8.00&action=add">Funghi - 8,00 €</a></li>
-    </ul>
-
-    <h3>Pasta:</h3>
-    <ul>
-        <li><a href="speisekarte.php?artikel=Spaghetti Carbonara&preis=9.00&action=add">Spaghetti Carbonara - 9,00 €</a></li>
-        <li><a href="speisekarte.php?artikel=Lasagne&preis=10.00&action=add">Lasagne - 10,00 €</a></li>
-    </ul>
-
-    <h3>Getränke:</h3>
-    <ul>
-        <li><a href="speisekarte.php?artikel=Cola&preis=2.50&action=add">Cola - 2,50 €</a></li>
-        <li><a href="speisekarte.php?artikel=Wasser&preis=2.00&action=add">Wasser - 2,00 €</a></li>
-    </ul>
-
-    <h3>Warenkorb:</h3>
-    <ul>
         <?php
-        foreach ($_SESSION['warenkorb'] as $index => $artikel) {
-            echo "<li>" . $artikel['name'] . " - " . $artikel['preis'] . " € <a href='speisekarte.php?artikelIndex=$index&action=remove'>Entfernen</a></li>";
+        $sql = "SELECT * FROM article";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<div class="pizza">';
+                echo '<img src="' . $row['picture'] . '" alt="' . $row['name'] . '" style="width: 200px; height: auto; max-height: 200px; object-fit: cover; border-radius: 10px;">';
+                echo '<h3>' . $row['name'] . '</h3>';
+                echo '<p>Preis: ' . $row['price'] . '€</p>';
+
+                // Hinzufügen zum Warenkorb
+                echo '<form action="speisekarte.php" method="post">';
+                echo '<input type="hidden" name="product_id" value="' . $row['id'] . '">';
+                echo '<input type="submit" name="add_to_cart" value="In den Warenkorb">';
+                echo '</form>';
+
+                echo '</div>';
+            }
+        } else {
+            echo "<p>Derzeit sind keine Pizzen in unserer Speisekarte.</p>";
         }
         ?>
-    </ul>
-    <p>Gesamtpreis: <?php echo number_format($gesamtpreis, 2, ',', '.'); ?> €</p>
+
+    </div>
+
+    <!-- Warenkorb Anzeige -->
+    <h2>Ihr Warenkorb</h2>
+    <?php
+    if (empty($_SESSION['warenkorb'])) {
+        echo "<p>Der Warenkorb ist leer.</p>";
+    } else {
+        foreach ($_SESSION['warenkorb'] as $product_id => $quantity) {
+            $sql = "SELECT * FROM article WHERE id=$product_id";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($result);
+
+            echo '<div class="cart-item">';
+            echo $row['name'] . " - " . $row['price'] . "€ - Anzahl: " . $quantity;
+
+            // Entfernen aus Warenkorb
+            echo '<form action="speisekarte.php" method="post" style="display: inline;">';
+            echo '<input type="hidden" name="product_id" value="' . $row['id'] . '">';
+            echo '<input type="submit" name="remove_from_cart" value="Entfernen">';
+            echo '</form>';
+
+            echo '</div>';
+        }
+    }
+    ?>
+
+    <a href="bestellen.php">Bestellung abschließen</a>
+
 </main>
 
 <?php
-include "footer.php";  // Lädt den Footer
+include 'footer.php';
 ?>
