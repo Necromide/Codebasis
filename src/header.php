@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport-Meta-Tag -->
     <title>Pizzeria Bella Napoli</title>
     <link rel="stylesheet" href="../assets/css/styles.css">  <!-- Verweis auf das CSS-Stylesheet -->
+    <link rel="icon" href="../src/Images/PizzaIcon.ico" type="image/x-icon">
 </head>
 
 <body>
