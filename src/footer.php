@@ -1,6 +1,5 @@
 <footer>
-    <p>&copy; 2023 Pizzeria Bella Italia - Alle Rechte vorbehalten.</p>
+    <p>&copy; 2023 Codebasis Musterpizzeria - Alle Rechte vorbehalten.</p>
 </footer>
 </body>
-
 </html>

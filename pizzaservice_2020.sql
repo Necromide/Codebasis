@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 22. Sep 2023 um 12:27
+-- Erstellungszeit: 25. Sep 2023 um 14:17
 -- Server-Version: 10.4.28-MariaDB
 -- PHP-Version: 8.2.4
 
@@ -39,8 +39,8 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `name`, `picture`, `price`) VALUES
-(1, 'Salami', 'Images/salami.jpg', 8.57),
-(2, 'Vegetaria', 'Images/vegetarisch.jpg', 12.5),
+(1, 'Salami', 'Images/salami.jpg', 8.49),
+(2, 'Vegetarisch', 'Images/vegetarisch.jpg', 12.99),
 (3, 'Spinat-Hühnchen', 'Images/spinat.jpg', 11.99);
 
 -- --------------------------------------------------------
@@ -106,13 +106,13 @@ ALTER TABLE `article`
 -- AUTO_INCREMENT für Tabelle `ordered_articles`
 --
 ALTER TABLE `ordered_articles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT für Tabelle `ordering`
 --
 ALTER TABLE `ordering`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints der exportierten Tabellen

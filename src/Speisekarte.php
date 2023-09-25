@@ -64,7 +64,7 @@ if (isset($_POST['submit_order']) && !empty($_SESSION['warenkorb'])) {
 
     <!-- Warenkorb Anzeige -->
     <h2>Ihr Warenkorb</h2>
-    <div>
+    <div class="warenkorb">
         <?php
         if (isset($_SESSION['warenkorb']) && !empty($_SESSION['warenkorb'])) {
             foreach ($_SESSION['warenkorb'] as $product_id => $quantity) {
