@@ -4,7 +4,7 @@ include "header.php";  // Hier wird der Header geladen (enthält den Beginn des 
 ?>
 
 <main>
-    <h2>Willkommen bei Pizzeria Bella Italia</h2>
+    <h2>Willkommen bei der Codebasis Musterpizzeria</h2>
     <p>Genießen Sie die beste italienische Küche in Musterstadt. Von köstlichen Pizzen bis zu erfrischenden Getränken, wir haben alles, was Ihr Herz begehrt!</p>
 </main>
 
