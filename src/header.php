@@ -20,5 +20,6 @@
     <a href="index.php">Startseite</a>
     <a href="speisekarte.php">Speisekarte</a>
     <a href="baecker.php">Baecker</a>
+    <a href="lieferant.php">Lieferant</a>
     <a href="kontakt.php">Kontakt</a>
 </nav>
